@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mesh Network</title>
+
+  <script type="text/javascript">
+  /***********************************************
+  * Dynamic Ajax Content- © Dynamic Drive DHTML code library (www.dynamicdrive.com)
+  * This notice MUST stay intact for legal use
+  * Visit Dynamic Drive at http://www.dynamicdrive.com/ for full source code
+  ***********************************************/
+
+  var loadedobjects=""
+  var rootdomain="http://"+window.location.hostname
+
+  function ajaxpage(url, containerid, category, title){
+  
+    if (document.getElementById("menu-title")) {
+        document.getElementById("menu-title").innerHTML=category+" <span class=\"channel-menu_prefix\">#"+title+"</span>";
+    }
+  
+    var page_request = false
+    if (window.XMLHttpRequest) // if Mozilla, Safari etc
+        page_request = new XMLHttpRequest()
+    else if (window.ActiveXObject){ // if IE
+        try {
+            page_request = new ActiveXObject("Msxml2.XMLHTTP")
+        }
+        catch (e){
+            try{
+                page_request = new ActiveXObject("Microsoft.XMLHTTP")
+            }
+            catch (e){}
+        }
+    }
+    else
+    return false
+    page_request.onreadystatechange=function(){
+        loadpage(page_request, containerid)
+    }
+        page_request.open('GET', url, true)
+        page_request.send(null)
+  }
+
+  function loadpage(page_request, containerid){
+    if (page_request.readyState == 4 && (page_request.status==200 || window.location.href.indexOf("http")==-1))
+    document.getElementById(containerid).innerHTML=page_request.responseText
+  }
+
+  function loadobjs(){
+    if (!document.getElementById)
+    return
+    for (i=0; i<arguments.length; i++){
+        var file=arguments[i]
+        var fileref=""
+        if (loadedobjects.indexOf(file)==-1){ //Check to see if this object has not already been added to page before proceeding
+            if (file.indexOf(".js")!=-1){ //If object is a js file
+                fileref=document.createElement('script')
+                fileref.setAttribute("type","text/javascript");
+                fileref.setAttribute("src", file);
+            }
+            else if (file.indexOf(".css")!=-1){ //If object is a css file
+                fileref=document.createElement("link")
+                fileref.setAttribute("rel", "stylesheet");
+                fileref.setAttribute("type", "text/css");
+                fileref.setAttribute("href", file);
+            }
+        }
+        if (fileref!=""){
+            document.getElementsByTagName("head").item(0).appendChild(fileref)
+            loadedobjects+=file+" " //Remember this object as being already added to page
+        }
+    }
+  }
+  </script>
+  <script src="jquery.min.js"></script>
+
+    <link rel="stylesheet" href="style.css">
+    <style>
+    #menu-bar{
+        width: 35px;
+        height: 5px;
+        background-color: white;
+        margin: 6px 0px 6px 20px;
+    }
+    #menu-container{
+        cursor:pointer;
+		padding-top: 7px;
+		background-color: #005596;
+		transition: background-color .3s ease-out;
+		height:53px;
+		width: 75px;
+    }
+	#menu-container:hover{
+        background-color: #0065b3;
+		transition: background-color .3s ease-out;
+    }
+    .input-box_text{
+        max-width:calc(100% - 100px);
+        margin-right: 5px;
+    }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+		<div id="menu-container" onclick="openNav()" style="float:left;">
+			<div id="menu-bar"></div>
+			<div id="menu-bar"></div>
+			<div id="menu-bar"></div>
+		</div>
+		<span class="channel-menu_name" style="float:left" id="menu-title">NEWS <span class="channel-menu_prefix">#National</span></span>
+        <nav class="navbar navbar-default navbar-fixed-top">
+            <div class="container">
+                <div id="navbar" class="sidenav">
+					<h2 class="title">LEMON NET</h2>
+                    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">x</a>
+                    
+                    <div id="links">
+					  <a href="#">News</a>
+					    <ul>
+						  <li><a href="javascript:ajaxpage('boards/local.html', 'message-history', 'News', 'Local');">Local</a></li>
+						  <li><a href="javascript:ajaxpage('boards/national.html', 'message-history', 'News', 'National');" class=" active">National</a></li>
+						  <li><a href="javascript:ajaxpage('boards/police.html', 'message-history', 'News', 'Police');">Police</a></li>
+						  <li><a href="javascript:ajaxpage('boards/bellingham.html', 'message-history', 'News', 'Weather');">Weather</a></li>
+						</ul>
+					  <a href="#">Discussion</a>
+					  <ul>
+						<li><a href="#">Events</a></li>
+						<li><a href="#">Construction</a></li>
+						<li><a href="#">Farming</a></li>
+						<li><a href="#">First Aid</a></li>
+						<li><a href="#">General</a></li>
+						<li><a href="#">Technology</a></li>
+						<li><a href="#">Random</a></li>
+						<li><a href="#">Survival</a></li>
+					  </ul>
+					  <a href="#">Resources</a>
+					   <ul>
+						<li><a href="#">Books</a></li>
+						<li><a href="#">Tutorials</a></li>
+						<li><a href="#">Videos</a></li>
+						<li><a href="#">Wikipedia</a></li>
+					  </ul>
+					  <hr>
+					  <a href="#">Emergency Responders</a>
+					  <ul>
+						<li><a href="#"><span class="read">online</span>911</a></li>
+						<li><a href="#"><span class="read">online</span>City Government</a></li>
+						<li><a href="#"><span class="unread">offline</span>Utilities</a></li>
+					  </ul>
+					  <a href="#">Friends</a>
+					  <ul>
+						<li><a href="#"><span class="read">online</span>Matt</a></li>
+						<li><a href="#"><span class="unread">offline</span>Kyle</a></li>
+						<li><a href="#"><span class="unread">offline</span>Zach</a></li>
+						<li><a href="#"><span class="unread">offline</span>Mia</a></li>
+					  </ul>
+                    </div>
+
+                <script>
+                function openNav() {
+                    document.getElementById("navbar").style.width = "250px";
+                }
+                function closeNav() {
+                    document.getElementById("navbar").style.width = "0";
+                }
+                </script>
+            </div>
+			</div>
+        </nav>
+
+    </div>
+    <div class="main">
+      <div class="message-history" id="message-history">
+        <div class="message"><a class="message_username" href="">Hawii Govt</a><span class="message_timestamp">8:07 AM</span><span class="message_star"></span><span class="message_content">Emergency Alert<br>BALLISTIC MISSILE THREAT INBOUND TO HAWII. SEEK IMMEDIATE SHELTER. THIS IS NOT A DRILL.</span></div>
+        <div class="message"><a class="message_username" href="">Hawii Govt</a><span class="message_timestamp">8:45 AM</span><span class="message_star"></span><span class="message_content">There is no missile threat or danger to the State of Hawaii. Repeat. False Alarm</span></div>
+        <div class="message"><a class="message_username" href="">Hawii Govt</a><span class="message_timestamp">8:07 AM</span><span class="message_star"></span><span class="message_content">Emergency Alert<br>BALLISTIC MISSILE THREAT INBOUND TO HAWII. SEEK IMMEDIATE SHELTER. THIS IS NOT A DRILL.</span></div>
+        <div class="message"><a class="message_username" href="">Hawii Govt</a><span class="message_timestamp">8:45 AM</span><span class="message_star"></span><span class="message_content">There is no missile threat or danger to the State of Hawaii. Repeat. False Alarm</span></div>
+        <div class="message"><a class="message_username" href="">Hawii Govt</a><span class="message_timestamp">8:07 AM</span><span class="message_star"></span><span class="message_content">Emergency Alert<br>BALLISTIC MISSILE THREAT INBOUND TO HAWII. SEEK IMMEDIATE SHELTER. THIS IS NOT A DRILL.</span></div>
+        <div class="message"><a class="message_username" href="">Hawii Govt</a><span class="message_timestamp">8:45 AM</span><span class="message_star"></span><span class="message_content">There is no missile threat or danger to the State of Hawaii. Repeat. False Alarm</span></div>
+        <div class="message"><a class="message_username" href="">Hawii Govt</a><span class="message_timestamp">8:07 AM</span><span class="message_star"></span><span class="message_content">Emergency Alert<br>BALLISTIC MISSILE THREAT INBOUND TO HAWII. SEEK IMMEDIATE SHELTER. THIS IS NOT A DRILL.</span></div>
+        <div class="message"><a class="message_username" href="">Hawii Govt</a><span class="message_timestamp">8:45 AM</span><span class="message_star"></span><span class="message_content">There is no missile threat or danger to the State of Hawaii. Repeat. False Alarm</span></div>
+        <div class="message"><a class="message_username" href="">Hawii Govt</a><span class="message_timestamp">8:07 AM</span><span class="message_star"></span><span class="message_content">Emergency Alert<br>BALLISTIC MISSILE THREAT INBOUND TO HAWII. SEEK IMMEDIATE SHELTER. THIS IS NOT A DRILL.</span></div>
+        <div class="message"><a class="message_username" href="">Hawii Govt</a><span class="message_timestamp">8:45 AM</span><span class="message_star"></span><span class="message_content">There is no missile threat or danger to the State of Hawaii. Repeat. False Alarm</span></div>
+        <div class="message"><a class="message_username" href="">Hawii Govt</a><span class="message_timestamp">8:07 AM</span><span class="message_star"></span><span class="message_content">Emergency Alert<br>BALLISTIC MISSILE THREAT INBOUND TO HAWII. SEEK IMMEDIATE SHELTER. THIS IS NOT A DRILL.</span></div>
+        <div class="message"><a class="message_username" href="">Hawii Govt</a><span class="message_timestamp">8:45 AM</span><span class="message_star"></span><span class="message_content">There is no missile threat or danger to the State of Hawaii. Repeat. False Alarm</span></div>
+        <div class="message"><a class="message_username" href="">Hawii Govt</a><span class="message_timestamp">8:07 AM</span><span class="message_star"></span><span class="message_content">Emergency Alert<br>BALLISTIC MISSILE THREAT INBOUND TO HAWII. SEEK IMMEDIATE SHELTER. THIS IS NOT A DRILL.</span></div>
+        <div class="message"><a class="message_username" href="">Hawii Govt</a><span class="message_timestamp">8:45 AM</span><span class="message_star"></span><span class="message_content">There is no missile threat or danger to the State of Hawaii. Repeat. False Alarm</span></div>
+        <div class="message"><a class="message_username" href="">Hawii Govt</a><span class="message_timestamp">8:07 AM</span><span class="message_star"></span><span class="message_content">Emergency Alert<br>BALLISTIC MISSILE THREAT INBOUND TO HAWII. SEEK IMMEDIATE SHELTER. THIS IS NOT A DRILL.</span></div>
+        <div class="message"><a class="message_username" href="">Hawii Govt</a><span class="message_timestamp">8:45 AM</span><span class="message_star"></span><span class="message_content">There is no missile threat or danger to the State of Hawaii. Repeat. False Alarm</span></div>
+        <div class="message"><a class="message_username" href="">Hawii Govt</a><span class="message_timestamp">8:07 AM</span><span class="message_star"></span><span class="message_content">Emergency Alert<br>BALLISTIC MISSILE THREAT INBOUND TO HAWII. SEEK IMMEDIATE SHELTER. THIS IS NOT A DRILL.</span></div>
+        <div class="message"><a class="message_username" href="">Hawii Govt</a><span class="message_timestamp">8:45 AM</span><span class="message_star"></span><span class="message_content">There is no missile threat or danger to the State of Hawaii. Repeat. False Alarm</span></div>
+        <div class="message"><a class="message_username" href="">Hawii Govt</a><span class="message_timestamp">8:07 AM</span><span class="message_star"></span><span class="message_content">Emergency Alert<br>BALLISTIC MISSILE THREAT INBOUND TO HAWII. SEEK IMMEDIATE SHELTER. THIS IS NOT A DRILL.</span></div>
+        <div class="message"><a class="message_username" href="">Hawii Govt</a><span class="message_timestamp">8:45 AM</span><span class="message_star"></span><span class="message_content">There is no missile threat or danger to the State of Hawaii. Repeat. False Alarm</span></div>
+
+      </div>
+    </div>
+    <div class="footer">
+      <div class="input-box">
+        <form>
+            <input class="input-box_text" type="text" placeholder="Type your message here..."/>
+            <button value="send" style="width:80px;">Send</button>
+        </form>
+      </div>
+    </div>
+    
+    <script type="text/javascript">
+        var header = document.getElementById("links");
+        var btns = header.getElementsByTagName("A");
+        for (var i = 0; i < btns.length; i++) {
+            btns[i].addEventListener("click", function() {
+            var current = document.getElementsByClassName("active");
+            current[0].className = current[0].className.replace(" active", "");
+            this.className += " active";
+            });
+        }
+    </script>
+    
+  </body>
+</html>
