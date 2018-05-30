@@ -5,7 +5,20 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Mesh Network</title>
-
+  <script src="jquery.min.js"></script>
+  
+  <script type="text/javascript">
+	// Check browser support
+	if (typeof(Storage) !== "undefined") {
+		// Store
+		localStorage.setItem("username", "Kyle");
+		// Retrieve
+		var username = localStorage.getItem("username");
+	} else {
+		var username = "Unsupported";
+	}
+  </script>
+  
   <script type="text/javascript">
   /***********************************************
   * Dynamic Ajax Content- © Dynamic Drive DHTML code library (www.dynamicdrive.com)
@@ -15,6 +28,41 @@
 
   var loadedobjects=""
   var rootdomain="http://"+window.location.hostname
+
+  /* GET BOARDS */
+  var url = "/board/_design/board/_view/board?key=\"News\"";
+  $.getJSON(url, function(data) {
+		$.each(data.rows, function(i, f) {
+			var tblRow = "<li><a href=\"javascript:ajaxpage('/messages/_design/messages/_view/messages?key=%22"+f.id+"%22', 'message-history', '"+f.value.category+"', '"+f.value.title+"');\">"+f.value.title+"</a></li>";
+				$(tblRow).appendTo("#news ul");
+		});
+  });
+  
+  var url = "/board/_design/board/_view/board?key=\"Discussion\"";
+  $.getJSON(url, function(data) {
+		$.each(data.rows, function(i, f) {
+			var tblRow = "<li><a href=\"javascript:ajaxpage('/messages/_design/messages/_view/messages?key=%22"+f.id+"%22', 'message-history', '"+f.value.category+"', '"+f.value.title+"');\">"+f.value.title+"</a></li>";
+				$(tblRow).appendTo("#discussion ul");
+		});
+  });
+  
+  var url = "/board/_design/board/_view/board?key=\"Resources\"";
+  $.getJSON(url, function(data) {
+		$.each(data.rows, function(i, f) {
+			var tblRow = "<li><a href=\"javascript:ajaxpage('/messages/_design/messages/_view/messages?key=%22"+f.id+"%22', 'message-history', '"+f.value.category+"', '"+f.value.title+"');\">"+f.value.title+"</a></li>";
+				$(tblRow).appendTo("#resources ul");
+		});
+  });
+  
+  /* Get users */
+  var people = [];
+  var url = "/users/_design/user/_view/user";
+  $.getJSON(url, function(data) {
+		$.each(data.rows, function(i, f) {
+			var tblRow = "<li><a href=\"javascript:ajaxpage('/messages/_design/messages/_view/messages?key=%22"+f.id+"%22', 'message-history', 'Messages', '"+f.value.username+"');\">"+f.value.username+"</a></li>";
+				$(tblRow).appendTo("#friends ul");
+		});
+  });
 
   function ajaxpage(url, containerid, category, title){
   
@@ -49,6 +97,8 @@
     if (page_request.readyState == 4 && (page_request.status==200 || window.location.href.indexOf("http")==-1)){
 		document.getElementById(containerid).innerHTML=page_request.responseText;
 		closeNav();
+		
+		
 	}
   }
 
@@ -77,9 +127,9 @@
         }
     }
   }
+  
   </script>
-  <script src="jquery.min.js"></script>
-
+  
     <link rel="stylesheet" href="style.css">
     <style>
     #menu-bar{
@@ -124,44 +174,25 @@
                     
                     <div id="links">
 					  <a href="#">News</a>
-					    <ul>
-						  <li><a href="javascript:ajaxpage('boards/local.html', 'message-history', 'News', 'Local');">Local</a></li>
-						  <li><a href="javascript:ajaxpage('boards/national.html', 'message-history', 'News', 'National');" class=" active">National</a></li>
-						  <li><a href="javascript:ajaxpage('boards/police.html', 'message-history', 'News', 'Police');">Police</a></li>
-						  <li><a href="javascript:ajaxpage('boards/bellingham.html', 'message-history', 'News', 'Weather');">Weather</a></li>
-						</ul>
-					  <a href="javascript:ajaxpage('boards/registration.html', 'message-history', 'Users', 'Registration');">Discussion</a>
-					  <ul>
-						<li><a href="#">Events</a></li>
-						<li><a href="#">Construction</a></li>
-						<li><a href="#">Farming</a></li>
-						<li><a href="#">First Aid</a></li>
-						<li><a href="#">General</a></li>
-						<li><a href="#">Technology</a></li>
-						<li><a href="#">Random</a></li>
-						<li><a href="#">Survival</a></li>
-					  </ul>
+					  <div id="news">
+						<ul></ul>
+					  </div>
+						
+					  <a href="#">Discussion</a>
+					  <div id="discussion">
+						<ul></ul>
+					  </div>
+					  
 					  <a href="#">Resources</a>
-					   <ul>
-						<li><a href="#">Books</a></li>
-						<li><a href="#">Tutorials</a></li>
-						<li><a href="#">Videos</a></li>
-						<li><a href="#">Wikipedia</a></li>
-					  </ul>
+					  <div id="resources">
+						<ul></ul>
+					  </div>
 					  <hr>
-					  <a href="#">Emergency Responders</a>
-					  <ul>
-						<li><a href="#"><span class="read">online</span>911</a></li>
-						<li><a href="#"><span class="read">online</span>City Government</a></li>
-						<li><a href="#"><span class="unread">offline</span>Utilities</a></li>
-					  </ul>
-					  <a href="#">Friends</a>
-					  <ul>
-						<li><a href="#"><span class="read">online</span>Matt</a></li>
-						<li><a href="#"><span class="unread">offline</span>Kyle</a></li>
-						<li><a href="#"><span class="unread">offline</span>Zach</a></li>
-						<li><a href="#"><span class="unread">offline</span>Mia</a></li>
-					  </ul>
+					  
+					  <a href="#">Users</a>
+					  <div id="friends">
+						<ul></ul>
+					  </div>
                     </div>
 
                 <script>
