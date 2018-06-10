@@ -1,0 +1,116 @@
+<div class="main">
+  <div class="message-history">
+
+	<?php
+		session_start();
+		if(!isset($_SESSION["username"]) || empty($_SESSION["username"])){
+			header("Location: /login.php");
+			die();
+		}
+		$username = $_SESSION["username"];
+
+		$port = "http://".$_SERVER{'SERVER_NAME'}.":5984";
+		require_once('sanitize.php');
+		$boardtype_err = $boardcat_err = $boardname_err = "";
+		
+		// Processing form data when form is loaded
+		if($_SERVER["REQUEST_METHOD"] == "GET"){
+			if(!empty(trim($_GET["cat"]))){
+				$category = fCleanString($_GET["cat"], 50);
+			}
+		}
+
+		// Processing form data when form is submitted
+		if($_SERVER["REQUEST_METHOD"] == "POST"){
+			
+			// Check if message is empty
+			if(!empty(trim($_POST["boardcat"])) && !empty(trim($_POST["boardname"])) && !empty(trim($_POST["boardtype"]))){
+				$boardcat = fCleanString($_POST["boardcat"], 15);
+				$boardtype = fCleanString($_POST["boardtype"], 10);
+				$boardname = fCleanString($_POST["boardname"], 50);
+				
+				if(!($boardcat=="News" || $boardcat=="Discussion" || $boardcat=="Resources" || $boardcat=="Groups")){
+					$boardcat_err = "$boardcat is not an option";
+				}
+				else if(!($boardtype=="Public" || $boardtype=="Private")){
+					$boardtype_err = "$boardtype is not an option";
+				}
+				else{
+					echo "Creating Board";
+					
+					if($boardtype=="Public"){
+						$new_message = array(
+							'category' => $boardcat,
+							'title' => $boardname,
+							'admin' => ["$username"],
+							'users' => []
+						);
+						$UUID = fCreateDoc($port, $new_message, "board");
+						$_SESSION["board"] = $board;
+						$_SESSION["title"] = $title;
+						header("Location: /index.php?board=$boardcat&title=$boardname&load=messages.php&cat=messages&id=$UUID");
+						echo "public board created with $username";
+						//die();
+					}
+					
+					else if($boardtype=="Private"){
+						$new_message = array(
+							'category' => $boardcat,
+							'title' => $boardname,
+							'admin' => ["$username"],
+							'users' => ["$username"]
+						);
+						$UUID = fCreateDoc($port, $new_message, "board");
+						$_SESSION["board"] = $board;
+						$_SESSION["title"] = $title;
+						header("Location: /index.php?board=Edit%20Board&title=$boardname&load=edit_board.php&id=$UUID");
+						die();
+					}
+					else{
+						echo "Boardtype can only be public or private<br>";
+					}
+					
+					
+				}
+			}
+			else{
+				$boardname_err = "Please provide a board name";
+			}
+		}
+	 ?>
+	 
+	 	<div style="margin:0px auto; width: 300px; max-width:100%;">
+		<h2>Create Board</h2>
+		<form action="create_board.php" method="POST">
+			<div class="form-group">
+				<label>Board Category</label>
+				<select name="boardcat" class="form-control <?php echo (!empty($boardcat_err)) ? 'has-error' : ''; ?>">
+				  <option value="News" <?php if($category=='News') echo 'selected'; ?>>News</option>
+				  <option value="Discussion" <?php if($category=='Discussion') echo 'selected'; ?>>Discussion</option>
+				  <option value="Resources" <?php if($category=='Resources') echo 'selected'; ?>>Resources</option>
+				  <option value="Groups" <?php if($category=='Groups') echo 'selected'; ?>>Groups</option>
+				</select>
+				<span class="help-block"><?php echo $boardcat_err; ?></span>
+			</div>
+			<div class="form-group">
+				<label>Board Type</label>
+				<select name="boardtype" class="form-control <?php echo (!empty($boardtype_err)) ? 'has-error' : ''; ?>">
+				  <option value="Public" selected>Public</option>
+				  <option value="Private">Private</option>
+				</select>
+				<span class="help-block"><?php echo $boardtype_err; ?></span>
+			</div>
+			<div class="form-group <?php echo (!empty($boardname_err)) ? 'has-error' : ''; ?>">
+				<label>Board Name</label>
+				<input type="text" name="boardname" class="form-control" maxlength="50" value="">
+				<span class="help-block"><?php echo $boardname_err; ?></span>
+			</div>
+			<div class="form-group">
+				<input type="submit" class="btn btn-primary" value="Create">
+			</div>
+		</form>
+		
+	</div>
+
+  </div>
+</div>
