@@ -10,6 +10,10 @@
 		$username = $_SESSION["username"];
 
 		$port = "http://".$_SERVER{'SERVER_NAME'}.":5984";
+		$board = $_SESSION["board"];
+		$title = $_SESSION["title"];
+		$category = $_SESSION["category"];
+		$docId = $_SESSION["docId"];
 
 		// Processing form data when form is submitted
 		if($_SERVER["REQUEST_METHOD"] == "POST"){
@@ -32,18 +36,19 @@
 				);
 				$UUID = fCreateDoc($port, $new_message, "messages");
 				fAddFile($port, $category, $UUID, $filePath, $fileName);
-				
-				$board = $_SESSION["board"];
-				$title = $_SESSION["title"];
-				header("Location: /index.php?board=$board&title=$title&load=messages.php&cat=messages&id=$docId");
-				die();
 			}
+			
+			header("Location: /index.php?board=$board&title=$title&load=messages.php&cat=messages&id=$docId");
+			die();
 		}
 		
 		// Processing form data when board is loaded
 		if($_SERVER["REQUEST_METHOD"] == "GET"){
-			$category = htmlspecialchars($_GET["cat"]);
-			$docId = htmlspecialchars($_GET["id"]);
+			$category = fCleanString($_GET["cat"], 50);
+			$docId = fCleanString($_GET["id"], 64);
+			
+			$_SESSION["category"] = $category;
+			$_SESSION["docId"] = $docId;
 
 			$url = $port."/messages/_design/messages/_view/".$category."?key=%22".$docId."%22&limit=100";
 			$json = file_get_contents($url);
