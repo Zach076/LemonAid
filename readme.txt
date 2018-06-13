@@ -50,6 +50,6 @@ How to setup the program:
 
 OR
 
-Write the .img file to a SD card, and run it on a raspberry pi zero (http://kylemccaf.com/lemonaid/LEMON%20OS%206-12-18.img)
+Write the .img file to a SD card, and run it on a raspberry pi zero (http://kylemccaf.com/lemonaid/LEMON%20OS%206-12-18.zip)
 1. The ssh username is "couchdb" with a password of "new_password"
 2. The localhost:5984/_utils username is "admin" with a password of "password"
