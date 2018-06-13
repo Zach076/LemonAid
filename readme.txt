@@ -46,3 +46,10 @@ How to setup the program:
     }
     
 6. Upload the contents of the frontend folder into your Apache folder "/var/www/html"
+
+
+OR
+
+Write the .img file to a SD card, and run it on a raspberry pi zero
+1. The ssh username is "couchdb" with a password of "new_password"
+2. The localhost:5984/_utils username is "admin" with a password of "password"
